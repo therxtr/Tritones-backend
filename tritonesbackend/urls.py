@@ -15,10 +15,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.urls import include, re_path
 from django.urls import path, include
+from django.views.generic.base import TemplateView
+from tritones.views import *
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('tritones.urls')),
-    path('tritones/', include('tritones.urls'))
+    re_path(r'^admin/', admin.site.urls),
+    re_path(r'^getData/', get_data),
+    path('tritones/', include('tritones.urls')),
+    re_path(r'^.*', TemplateView.as_view(template_name="home.html"), name="home")
 ]
+
