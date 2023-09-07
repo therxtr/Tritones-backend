@@ -73,10 +73,16 @@ WSGI_APPLICATION = 'tritonesbackend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# Settings for SQLite
+SQLITE_HOST = 'localhost'  # Replace with your SQLite host if it's on a different machine
+SQLITE_PORT = 8000  # Default SQLite port
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'tritonesdb.sqlite3',
+        'HOST': SQLITE_HOST,
+        'PORT': SQLITE_PORT,
     }
 }
 
