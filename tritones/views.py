@@ -9,6 +9,15 @@ from tritones.serializers import memberSerializer, boardMemberSerializer
 
 from django.views.decorators.csrf import csrf_exempt
 
+from .forms import ContactForm
+from .models import contactModel 
+from rest_framework import generics 
+from .serializers import ContactSubmissionSerializer
+
+from django.core.mail import send_mail
+
+
+# send member data
 @csrf_exempt
 def get_member_data(request):
 	data = Member.objects.all()
@@ -16,6 +25,7 @@ def get_member_data(request):
 		serializer = memberSerializer(data, many=True)
 		return JsonResponse(serializer.data, safe=False)
     
+# send board member data
 @csrf_exempt
 def get_board_data(request):
 	data = boardMember.objects.all()
@@ -23,21 +33,23 @@ def get_board_data(request):
 		serializer = boardMemberSerializer(data, many=True)
 		return JsonResponse(serializer.data, safe=False)
      
-# Create your views here.
-def view_home(request):
-    return HttpResponse("Hello, Home!")
-
-def view_about_us(request):
-    return HttpResponse("Hello, About Us!")
-
-def view_auditions(request):
-    return HttpResponse("Hello, Auditions!")
-
-def view_photos(request):
-    return HttpResponse("Hello, Photos!")
-
-def view_bookings(request):
-    return HttpResponse("Hello, Bookings!")
-
-def view_contact_us(request):
-    return HttpResponse("Hello, Contact Us!")
+# contact form view
+@csrf_exempt  # Disable CSRF protection for simplicity (not recommended for production)
+def submit_contact_form(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            email = form.cleaned_data['email']
+            send_mail(
+                'Contact Us Form Submission',
+                form.cleaned_data['message'],
+                'ExoticTestEmail@555.com',
+                [email],  # recipient's email
+                fail_silently=False,
+            )
+            return JsonResponse({'message': 'Form submitted successfully'})
+        else:
+            return JsonResponse({'message': 'Form data is not valid'})
+    else:
+        return JsonResponse({'message': 'Only POST requests are allowed'})
