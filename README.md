@@ -1,11 +1,22 @@
-# Tritones-backend
+# Tritones-frontend
+Front end application for the UCSD Tritones website.
 
-Update as of 9/12:  
+in order to run app, needs
 
-Added data model and populated the database for members and board members
+ng new tritone
 
-Created serializer file to serialize that data into json responses in views.py
+ng generate component home
 
-Created model and form for "contact us" page and sent the data through a json response so that Angular can communicate with it through HTTPClient
+ng generate component about-us
 
-Created Url Paths for the data so that they can be displayed when app is running 
+ng generate component auditions
+
+ng generate component photos
+
+ng generate component bookings
+
+Latest:
+Home-page almost done
+audition and about us page in progress.
+updated asset.
+updated navigation links.
