@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -31,10 +32,18 @@ DEBUG = True
 # Email configs 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'ExoticTestEmail555@gmail.com'  
-EMAIL_HOST_PASSWORD = 'ExoticTest555'
+EMAIL_PORT = 587  # Port number for SMTP (may vary)
+EMAIL_USE_TLS = True  # Use TLS (True or False)
+EMAIL_HOST_USER = 'exotictestemail555@gmail.com'  # Replace with your email
+EMAIL_HOST_PASSWORD = 'vyvx nibh bhad sjnp'  # Replace with your email password (or use apps password if not working)
+
+
+"""
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = '86d54937b03482'
+EMAIL_HOST_PASSWORD = '0c5565552cabd5'
+EMAIL_PORT = '2525'
+"""
 
 ALLOWED_HOSTS = []
 
@@ -42,7 +51,7 @@ ALLOWED_HOSTS = []
 REST_FRAMEWORK = { 
     'DEFAULT_AUTHENTICATION_CLASSES': ( 
         'rest_framework.authentication.BaseAuthentication', 
-        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.SessionAuthentication',    
     ), 
     'DEFAULT_PERMISSION_CLASSES': ( 
         'rest_framework.permissions.AllowAny',

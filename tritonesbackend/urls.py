@@ -17,15 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, re_path
 from django.urls import path, include
-from django.views.generic.base import TemplateView
 from tritones.views import *
 
 urlpatterns = [
     re_path(r'^admin/', admin.site.urls),
     re_path(r'^memberData/', get_member_data),
     re_path(r'^boardData/', get_board_data),
-     re_path(r'^contactData/', submit_contact_form),
+    re_path(r'^contactData/', submit_contact_form),
     path('tritones/', include('tritones.urls')),
-    # re_path(r'^.*', TemplateView.as_view(template_name="home.html"), name="home")
 ]
 
