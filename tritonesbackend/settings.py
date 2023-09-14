@@ -11,9 +11,13 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -25,8 +29,34 @@ SECRET_KEY = 'django-insecure-jm((!z8%*w&vl0%)bljg#otj6s1586d@_i62*inrul7eww)sdf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Email configs 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587  # Port number for SMTP (may vary)
+EMAIL_USE_TLS = True  # Use TLS (True or False)
+EMAIL_HOST_USER = 'exotictestemail555@gmail.com'  # Replace with your email
+EMAIL_HOST_PASSWORD = 'vyvx nibh bhad sjnp'  # Replace with your email password (or use apps password if not working)
+
+
+"""
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = '86d54937b03482'
+EMAIL_HOST_PASSWORD = '0c5565552cabd5'
+EMAIL_PORT = '2525'
+"""
+
 ALLOWED_HOSTS = []
 
+
+REST_FRAMEWORK = { 
+    'DEFAULT_AUTHENTICATION_CLASSES': ( 
+        'rest_framework.authentication.BaseAuthentication', 
+        'rest_framework.authentication.SessionAuthentication',    
+    ), 
+    'DEFAULT_PERMISSION_CLASSES': ( 
+        'rest_framework.permissions.AllowAny',
+    ),
+}
 
 # Application definition
 
@@ -37,7 +67,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tritones.apps.TritonesConfig',
+    'tritones', 
+    'rest_framework',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -48,6 +80,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware'
 ]
 
 ROOT_URLCONF = 'tritonesbackend.urls'
@@ -128,3 +162,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ORIGIN_ALLOW_ALL = True
