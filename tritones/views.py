@@ -2,7 +2,7 @@ import json
 from django.http import JsonResponse, HttpResponse
 
 from tritones.models import Member, boardMember
-from tritones.serializers import memberSerializer, boardMemberSerializer
+from tritones.serializers import memberSerializer, boardMemberSerializer, tritoneSpotifyTrackSerializer
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -89,10 +89,16 @@ def submit_contact_form(request):
     else:
         return JsonResponse({'message': 'Only POST requests are allowed'}, status=405)
 
+
+def get_track_data(request):
+    data = TritoneSpotifyTrack.objects.all()
+    if request.method == 'GET':
+        serializer = tritoneSpotifyTrackSerializer(data, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
 def view_home(request):
     the_tritones_artist_id = "1eohVzWa5vbk54pmWcFQar"
     fetch_and_store_tracks(the_tritones_artist_id)
-    return HttpResponse("Hello, Tritones!")
 
 def fetch_and_store_tracks(artist_spotify_id):
     # Fetch the top tracks of the artist
