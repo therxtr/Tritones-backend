@@ -89,20 +89,18 @@ def submit_contact_form(request):
     else:
         return JsonResponse({'message': 'Only POST requests are allowed'}, status=405)
 
-
+@csrf_exempt
 def get_track_data(request):
     data = TritoneSpotifyTrack.objects.all()
     if request.method == 'GET':
         serializer = tritoneSpotifyTrackSerializer(data, many=True)
         return JsonResponse(serializer.data, safe=False)
 
-def view_home(request):
-    the_tritones_artist_id = "1eohVzWa5vbk54pmWcFQar"
-    fetch_and_store_tracks(the_tritones_artist_id)
-
-def fetch_and_store_tracks(artist_spotify_id):
+@csrf_exempt
+def fetch_and_store_tracks(request):
     # Fetch the top tracks of the artist
-    top_tracks = sp.artist_top_tracks(artist_spotify_id)
+    the_tritones_artist_id = "1eohVzWa5vbk54pmWcFQar"
+    top_tracks = sp.artist_top_tracks(the_tritones_artist_id)
 
     # Process and store the fetched tracks in the database
     for track_data in top_tracks['tracks']:
@@ -126,4 +124,4 @@ def fetch_and_store_tracks(artist_spotify_id):
         )
 
     # Optionally, you can return the fetched tracks or a success message
-    return "Data fetched and stored successfully."
+    return HttpResponse("Data fetched and stored successfully.")
