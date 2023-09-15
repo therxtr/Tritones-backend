@@ -1,5 +1,5 @@
 import json
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 
 from tritones.models import Member, boardMember
 from tritones.serializers import memberSerializer, boardMemberSerializer
@@ -10,6 +10,10 @@ from django.core.mail import send_mail
 
 from .forms import ContactForm
 
+from .config import sp
+
+from .models import TritoneSpotifyTrack
+
 
 # send member data
 @csrf_exempt
@@ -18,7 +22,7 @@ def get_member_data(request):
 	if request.method == 'GET':
 		serializer = memberSerializer(data, many=True)
 		return JsonResponse(serializer.data, safe=False)
-    
+
 # send board member data
 @csrf_exempt
 def get_board_data(request):
@@ -26,7 +30,7 @@ def get_board_data(request):
 	if request.method == 'GET':
 		serializer = boardMemberSerializer(data, many=True)
 		return JsonResponse(serializer.data, safe=False)
-     
+
 # contact form view
 """
 @csrf_exempt  # Disable CSRF protection for simplicity (not recommended for production)
@@ -39,7 +43,7 @@ def submit_contact_form(request):
 			subject = form.cleaned_data['subject']
 			message = form.cleaned_data['message']
 			form.save()
-            
+
 			message_text = f"Name: {name}\nEmail: {email}\nMessage: {message}"
 			send_mail(
                 subject,
@@ -85,4 +89,35 @@ def submit_contact_form(request):
     else:
         return JsonResponse({'message': 'Only POST requests are allowed'}, status=405)
 
-			
+def view_home(request):
+    the_tritones_artist_id = "1eohVzWa5vbk54pmWcFQar"
+    fetch_and_store_tracks(the_tritones_artist_id)
+    return HttpResponse("Hello, Tritones!")
+
+def fetch_and_store_tracks(artist_spotify_id):
+    # Fetch the top tracks of the artist
+    top_tracks = sp.artist_top_tracks(artist_spotify_id)
+
+    # Process and store the fetched tracks in the database
+    for track_data in top_tracks['tracks']:
+        # Extract relevant information from the track data
+        name = track_data['name']
+        album = track_data['album']['name']
+        spotify_id = track_data['id']
+
+        # Fetch additional details for the track
+        track_details = sp.track(spotify_id)
+
+        # Extract the track image URL, track name, and year of release
+        image_url = track_details['album']['images'][0]['url']  # URL of the first image
+        release_year = track_details['album']['release_date'].split('-')[0]  # Extract year from release_date
+        spotify_url = track_details['external_urls']['spotify']  # Spotify URL
+
+        # Create or update the SpotifyTrack model instance with the additional details
+        track, created = TritoneSpotifyTrack.objects.get_or_create(
+            spotify_id=spotify_id,
+            defaults={'name': name, 'album': album, 'image_url': image_url, 'release_year': release_year, 'spotify_url': spotify_url}
+        )
+
+    # Optionally, you can return the fetched tracks or a success message
+    return "Data fetched and stored successfully."
