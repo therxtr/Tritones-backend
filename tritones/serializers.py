@@ -1,16 +1,11 @@
 from rest_framework import serializers
-from .models import Member, boardMember, TritoneSpotifyTrack
+from .models import Member, TritoneSpotifyTrack
 
 
 class memberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member
         fields = ('name', 'number', 'voicePart')
-
-class boardMemberSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = boardMember
-        fields = ('name', 'number', 'voicePart', 'board')
 
 class tritoneSpotifyTrackSerializer(serializers.ModelSerializer):
     class Meta:

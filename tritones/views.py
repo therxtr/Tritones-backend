@@ -1,14 +1,12 @@
 import json
 from django.http import JsonResponse, HttpResponse
 
-from tritones.models import Member, boardMember
-from tritones.serializers import memberSerializer, boardMemberSerializer, tritoneSpotifyTrackSerializer
+from tritones.models import Member
+from tritones.serializers import memberSerializer, tritoneSpotifyTrackSerializer
 
 from django.views.decorators.csrf import csrf_exempt
 
 from django.core.mail import send_mail
-
-from .forms import ContactForm
 
 from .config import sp
 
@@ -23,42 +21,7 @@ def get_member_data(request):
 		serializer = memberSerializer(data, many=True)
 		return JsonResponse(serializer.data, safe=False)
 
-# send board member data
-@csrf_exempt
-def get_board_data(request):
-	data = boardMember.objects.all()
-	if request.method == 'GET':
-		serializer = boardMemberSerializer(data, many=True)
-		return JsonResponse(serializer.data, safe=False)
-
 # contact form view
-"""
-@csrf_exempt  # Disable CSRF protection for simplicity (not recommended for production)
-def submit_contact_form(request):
-	if request.method == 'POST':
-		form = ContactForm(request.POST)
-		if form.is_valid():
-			name = form.cleaned_data['name']
-			email = form.cleaned_data['email']
-			subject = form.cleaned_data['subject']
-			message = form.cleaned_data['message']
-			form.save()
-
-			message_text = f"Name: {name}\nEmail: {email}\nMessage: {message}"
-			send_mail(
-                subject,
-                message_text,
-                email,
-                ['exotictestemail555@gmail.com'],  # recipient's email
-                fail_silently=False,
-            )
-			return JsonResponse({'message': 'Form submitted successfully'})
-		else:
-			print(request.POST)
-			return JsonResponse(form.errors)
-	return JsonResponse({'message': 'Only POST requests are allowed'})
-"""
-
 @csrf_exempt
 def submit_contact_form(request):
     if request.method == 'POST':
@@ -89,6 +52,7 @@ def submit_contact_form(request):
     else:
         return JsonResponse({'message': 'Only POST requests are allowed'}, status=405)
 
+# track data for spotify
 @csrf_exempt
 def get_track_data(request):
     data = TritoneSpotifyTrack.objects.all()
