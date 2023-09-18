@@ -5,7 +5,7 @@ from .models import Member, TritoneSpotifyTrack
 class memberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member
-        fields = ('name', 'number', 'voicePart')
+        fields = ('name', 'number', 'voicePart', 'board', 'imageUrl')
 
 class tritoneSpotifyTrackSerializer(serializers.ModelSerializer):
     class Meta:
