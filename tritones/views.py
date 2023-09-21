@@ -1,8 +1,8 @@
 import json
 from django.http import JsonResponse, HttpResponse
 
-from tritones.models import Member
-from tritones.serializers import memberSerializer, tritoneSpotifyTrackSerializer
+from tritones.models import Member, Photo
+from tritones.serializers import memberSerializer, tritoneSpotifyTrackSerializer, photoSerializer
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -20,6 +20,17 @@ def get_member_data(request):
 	if request.method == 'GET':
 		serializer = memberSerializer(data, many=True)
 		return JsonResponse(serializer.data, safe=False)
+
+# send photo data
+@csrf_exempt
+def get_member_data(request):
+	data = Photo.objects.all()
+	if request.method == 'GET':
+		serializer = photoSerializer(data, many=True)
+		return JsonResponse(serializer.data, safe=False)
+
+
+
 
 # contact form view
 @csrf_exempt

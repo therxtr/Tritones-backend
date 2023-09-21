@@ -11,6 +11,16 @@ class Member(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Photo(models.Model): 
+    name = models.CharField(max_length=100)
+    year = models.IntegerField()
+    event = models.CharField(max_length=100, null=True, blank=True)
+    imageUrl = models.CharField(max_length=100, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
 
 class ContactSubmission(models.Model):
     name = models.CharField(max_length=100)
