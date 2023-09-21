@@ -24,6 +24,7 @@ urlpatterns = [
     re_path(r'^memberData/', get_member_data),
     re_path(r'^contactData/', submit_contact_form),
     re_path(r'trackData/', get_track_data),
+    re_path(r'^photoData', get_photo_data),
     path('tritones/', include('tritones.urls')),
 ]
 

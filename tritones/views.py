@@ -23,14 +23,11 @@ def get_member_data(request):
 
 # send photo data
 @csrf_exempt
-def get_member_data(request):
+def get_photo_data(request):
 	data = Photo.objects.all()
 	if request.method == 'GET':
 		serializer = photoSerializer(data, many=True)
 		return JsonResponse(serializer.data, safe=False)
-
-
-
 
 # contact form view
 @csrf_exempt
