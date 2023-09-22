@@ -4,7 +4,7 @@ from django.db import models
 
 class Member(models.Model):
     name = models.CharField(max_length=30)
-    number = models.CharField(max_length=10) # has special chars so have to use charField
+    number = models.CharField(max_length=10, null=True, blank=True) # has special chars so have to use charField
     voicePart = models.CharField(max_length=30, null=True, blank=True)
     board = models.CharField(max_length=50, null=True, blank=True)
     classLevel = models.CharField(max_length=30, null=True, blank=True)
