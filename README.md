@@ -7,17 +7,14 @@ This Django-based API powers the website’s data layer, handling member info, p
 ## 🧰 Prerequisites
 
 * Python: 3.11
-* Complete the [Django tutorial](https://docs.djangoproject.com/en/4.2/intro/tutorial01/).
 * SQLite3 (included by default in most Python installs)
 * Optional: [Conda](https://docs.conda.io/en/latest/) or [Miniconda](https://www.anaconda.com/docs/getting-started/miniconda/main) for virtual environment management
 
 It’s strongly recommended to create a virtual environment to isolate this project’s dependencies.
 Examples are shown below for both Conda and `venv`.
 
-## Knowledge Prerequisites
-
 ## 🗃️ Project Structure
-The project follows a standard **[Django](https://www.djangoproject.com/) application layout**, with a root configuration folder (`tritonesbackend`) and an app folder (`tritones`) that contains the actual models, views, and templates. This project was built using [Django v4.2.5](https://docs.djangoproject.com/en/4.2/).
+The project follows a standard **[Django](https://www.djangoproject.com/) application layout**, with a root configuration folder (`tritonesbackend`) and an app folder (`tritones`) that contains the actual models, views, and templates. This project was built using [Django v4.2.5](https://docs.djangoproject.com/en/4.2/) -- see [the tutorial](https://docs.djangoproject.com/en/4.2/intro/tutorial01/) for more info.
 
 ```bash
 Tritones-backend/
@@ -134,4 +131,4 @@ To interact with the SQLite database, I'd recommend installing [DBeaver Communit
 
 2. Select the local `tritones.sqlite3` file in your backend project directory
 
-3. Explore and verify data tables easily through the UI
+3. Explore and verify data tables through the UI
